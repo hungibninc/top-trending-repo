@@ -1,0 +1,11 @@
+# Node (E2E suite)
+node_modules/
+e2e/test-results/
+e2e/playwright-report/
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store

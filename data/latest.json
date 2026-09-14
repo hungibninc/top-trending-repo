@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "published_at": "2026-09-14T17:18:18Z",
+  "as_of": "2026-09-14T17:18:18Z",
+  "stale": false,
+  "warnings": [
+    "bootstrap run: no previous snapshot; ranked by total stars (delta_stars null)"
+  ],
+  "top10": [
+    {
+      "rank": 1,
+      "full_name": "codecrafters-io/build-your-own-x",
+      "description": "Master programming by recreating your favorite technologies from scratch.",
+      "html_url": "https://github.com/codecrafters-io/build-your-own-x",
+      "stars": 547212,
+      "forks": 51482,
+      "language": "Markdown",
+      "stars_last_week": null,
+      "delta_stars": null
+    },
+    {
+      "rank": 2,
+      "full_name": "sindresorhus/awesome",
+      "description": "\ud83d\ude0e Awesome lists about all kinds of interesting topics [NOTE: Pull requests are temporarily disabled until I have a chance to catch up with the existing ones]",
+      "html_url": "https://github.com/sindresorhus/awesome",
+      "stars": 505984,
+      "forks": 36869,
+      "language": null,
+      "stars_last_week": null,
+      "delta_stars": null
+    },
+    {
+      "rank": 3,
+      "full_name": "public-apis/public-apis",
+      "description": "A collective list of free APIs",
+      "html_url": "https://github.com/public-apis/public-apis",
+      "stars": 480031,
+      "forks": 52957,
+      "language": "Python",
+      "stars_last_week": null,
+      "delta_stars": null
+    },
+    {
+      "rank": 4,
+      "full_name": "freeCodeCamp/freeCodeCamp",
+      "description": "freeCodeCamp.org's open-source codebase and curriculum. Learn math, programming, and computer science for free.",
+      "html_url": "https://github.com/freeCodeCamp/freeCodeCamp",
+      "stars": 455428,
+      "forks": 46188,
+      "language": "TypeScript",
+      "stars_last_week": null,
+      "delta_stars": null
+    },
+    {
+      "rank": 5,
+      "full_name": "EbookFoundation/free-programming-books",
+      "description": ":books: Freely available programming books",
+      "html_url": "https://github.com/EbookFoundation/free-programming-books",
+      "stars": 396746,
+      "forks": 66770,
+      "language": "Python",
+      "stars_last_week": null,
+      "delta_stars": null
+    },
+    {
+      "rank": 6,
+      "full_name": "openclaw/openclaw",
+      "description": "The AI that really does things. Any OS. Any Platform. The lobster way. \ud83e\udd9e ",
+      "html_url": "https://github.com/openclaw/openclaw",
+      "stars": 389670,
+      "forks": 81917,
+      "language": "TypeScript",
+      "stars_last_week": null,
+      "delta_stars": null
+    },
+    {
+      "rank": 7,
+      "full_name": "donnemartin/system-design-primer",
+      "description": "Learn how to design large-scale systems. Prep for the system design interview.  Includes Anki flashcards.",
+      "html_url": "https://github.com/donnemartin/system-design-primer",
+      "stars": 369934,
+      "forks": 58423,
+      "language": "Python",
+      "stars_last_week": null,
+      "delta_stars": null
+    },
+    {
+      "rank": 8,
+      "full_name": "nilbuild/developer-roadmap",
+      "description": "Interactive roadmaps, guides and other educational content to help developers grow in their careers.",
+      "html_url": "https://github.com/nilbuild/developer-roadmap",
+      "stars": 367188,
+      "forks": 44941,
+      "language": "TypeScript",
+      "stars_last_week": null,
+      "delta_stars": null
+    },
+    {
+      "rank": 9,
+      "full_name": "jwasham/coding-interview-university",
+      "description": "A complete computer science study plan to become a software engineer.",
+      "html_url": "https://github.com/jwasham/coding-interview-university",
+      "stars": 360879,
+      "forks": 84824,
+      "language": null,
+      "stars_last_week": null,
+      "delta_stars": null
+    },
+    {
+      "rank": 10,
+      "full_name": "vinta/awesome-python",
+      "description": "The definitive list that answers \"I want to do X in Python, which tool should I use?\"",
+      "html_url": "https://github.com/vinta/awesome-python",
+      "stars": 320592,
+      "forks": 28729,
+      "language": "Python",
+      "stars_last_week": null,
+      "delta_stars": null
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "published_at": "2026-09-15T00:05:00Z",
+  "as_of": "2026-09-15T00:05:00Z",
+  "stale": true,
+  "warnings": [],
+  "top10": [
+    {
+      "rank": 1,
+      "full_name": "owner/repo-1",
+      "description": "Fixture repo 1 description",
+      "html_url": "https://github.com/owner/repo-1",
+      "stars": 10001,
+      "forks": 501,
+      "language": "Python",
+      "stars_last_week": 9000,
+      "delta_stars": 101
+    },
+    {
+      "rank": 2,
+      "full_name": "owner/repo-2",
+      "description": "Fixture repo 2 description",
+      "html_url": "https://github.com/owner/repo-2",
+      "stars": 10002,
+      "forks": 502,
+      "language": "Go",
+      "stars_last_week": 9000,
+      "delta_stars": 102
+    },
+    {
+      "rank": 3,
+      "full_name": "owner/repo-3",
+      "description": "Fixture repo 3 description",
+      "html_url": "https://github.com/owner/repo-3",
+      "stars": 10003,
+      "forks": 503,
+      "language": "Python",
+      "stars_last_week": 9000,
+      "delta_stars": 103
+    },
+    {
+      "rank": 4,
+      "full_name": "owner/repo-4",
+      "description": "Fixture repo 4 description",
+      "html_url": "https://github.com/owner/repo-4",
+      "stars": 10004,
+      "forks": 504,
+      "language": "Go",
+      "stars_last_week": 9000,
+      "delta_stars": 104
+    },
+    {
+      "rank": 5,
+      "full_name": "owner/repo-5",
+      "description": "Fixture repo 5 description",
+      "html_url": "https://github.com/owner/repo-5",
+      "stars": 10005,
+      "forks": 505,
+      "language": "Python",
+      "stars_last_week": 9000,
+      "delta_stars": 105
+    },
+    {
+      "rank": 6,
+      "full_name": "owner/repo-6",
+      "description": "Fixture repo 6 description",
+      "html_url": "https://github.com/owner/repo-6",
+      "stars": 10006,
+      "forks": 506,
+      "language": "Go",
+      "stars_last_week": 9000,
+      "delta_stars": 106
+    },
+    {
+      "rank": 7,
+      "full_name": "owner/repo-7",
+      "description": "Fixture repo 7 description",
+      "html_url": "https://github.com/owner/repo-7",
+      "stars": 10007,
+      "forks": 507,
+      "language": "Python",
+      "stars_last_week": 9000,
+      "delta_stars": 107
+    },
+    {
+      "rank": 8,
+      "full_name": "owner/repo-8",
+      "description": "Fixture repo 8 description",
+      "html_url": "https://github.com/owner/repo-8",
+      "stars": 10008,
+      "forks": 508,
+      "language": "Go",
+      "stars_last_week": 9000,
+      "delta_stars": 108
+    },
+    {
+      "rank": 9,
+      "full_name": "owner/repo-9",
+      "description": "Fixture repo 9 description",
+      "html_url": "https://github.com/owner/repo-9",
+      "stars": 10009,
+      "forks": 509,
+      "language": "Python",
+      "stars_last_week": 9000,
+      "delta_stars": 109
+    },
+    {
+      "rank": 10,
+      "full_name": "owner/repo-10",
+      "description": "Fixture repo 10 description",
+      "html_url": "https://github.com/owner/repo-10",
+      "stars": 10010,
+      "forks": 510,
+      "language": "Go",
+      "stars_last_week": 9000,
+      "delta_stars": 110
+    }
+  ]
+}

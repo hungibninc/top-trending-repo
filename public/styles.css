@@ -1,0 +1,210 @@
+/* Top 10 Trending GitHub Repos — static site styles.
+   Tokens defined in :root (light), overridden for dark via media query. */
+
+:root {
+  --bg: #f6f8fa;
+  --bg-card: #ffffff;
+  --border: #d0d7de;
+  --text: #1f2328;
+  --text-muted: #59636e;
+  --accent: #0969da;
+  --accent-hover: #0550ae;
+  --rank-bg: #eff2f5;
+  --delta: #1a7f37;
+  --delta-bg: #dafbe1;
+  --banner-bg: #fff8c5;
+  --banner-border: #d4a72c;
+  --banner-text: #5c4b00;
+  --shadow: 0 1px 3px rgba(31, 35, 40, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --bg-card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #9198a1;
+    --accent: #4493f8;
+    --accent-hover: #6cb2ff;
+    --rank-bg: #21262d;
+    --delta: #3fb950;
+    --delta-bg: rgba(63, 185, 80, 0.15);
+    --banner-bg: #3d2e00;
+    --banner-border: #d4a72c;
+    --banner-text: #eac54f;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+    Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  padding: 1rem;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 8px 0;
+}
+.skip-link:focus {
+  left: 0;
+  z-index: 10;
+}
+
+.site-header,
+.site-footer,
+main {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding-inline: 0.25rem;
+}
+
+.site-header { padding-block: 2rem 1.25rem; }
+.site-header h1 {
+  margin: 0 0 0.25rem;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  letter-spacing: -0.02em;
+}
+.tagline { margin: 0 0 0.75rem; color: var(--text-muted); }
+.asof {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* --- stale-data banner (PRD AC-7) --- */
+.banner {
+  border: 1px solid var(--banner-border);
+  background: var(--banner-bg);
+  color: var(--banner-text);
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+/* --- card grid (PRD AC-10: 1 col mobile, 2 cols from 768px) --- */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+@media (min-width: 768px) {
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.card {
+  display: flex;
+  gap: 0.85rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+.card:has(a:hover) { border-color: var(--accent); }
+
+.card-rank {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 8px;
+  background: var(--rank-bg);
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.card-body { min-width: 0; }
+
+.card-title {
+  margin: 0 0 0.3rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.card-title a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.card-title a:hover { text-decoration: underline; }
+.card-title a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.card-desc {
+  margin: 0 0 0.65rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.card-meta svg { vertical-align: -2px; fill: var(--text-muted); }
+
+.lang-dot {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: var(--lang-color, #8b949e);
+  margin-right: 0.35rem;
+  vertical-align: -1px;
+}
+
+.stat.delta { color: var(--delta); font-weight: 600; }
+.stat.delta.muted { color: var(--text-muted); font-weight: 400; }
+
+/* --- warnings footnote --- */
+.warnings {
+  margin: 1rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  list-style: none;
+  padding: 0;
+}
+.warnings li::before { content: "⚠ "; }
+
+.site-footer {
+  margin-top: 2.5rem;
+  padding-block: 1.5rem 2rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

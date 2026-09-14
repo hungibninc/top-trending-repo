@@ -1,0 +1,182 @@
+# Weekly update pipeline — Top 10 Trending GitHub Repos
+#
+# Runs every Monday at 00:00 UTC (PRD AC-1): fetch -> build -> E2E gate ->
+# commit -> deploy to GitHub Pages.
+#
+# Repo settings required (one-time):
+#   1. Settings -> Pages -> Build and deployment -> Source: "GitHub Actions"
+#      (the deploy-pages action below publishes from the artifact).
+#   2. Settings -> Actions -> General -> Workflow permissions:
+#      works fine with "Read repository contents and packages permissions"
+#      because this file grants its own elevated permissions via `permissions:`.
+#   3. If `main` has branch protection: allow the github-actions[bot] push,
+#      or route the data commit to an unprotected branch.
+#
+# Token model: uses the automatic GITHUB_TOKEN only (no PAT to store).
+#   - `contents: write` lets the bot push the data/site commit back to the repo
+#   - `pages: write` + `id-token: write` let actions/deploy-pages publish
+#   - the token is GitHub-auto-redacted in logs and gives the fetch step an
+#     authenticated rate limit (5000 req/hr) via the GITHUB_TOKEN env var
+#
+# Failure alerting: if the data fetch or static build step fails, an alert is
+# sent to Discord and/or Slack (whichever webhook secret is configured):
+#   Settings -> Secrets and variables -> Actions -> Repository secrets:
+#     DISCORD_WEBHOOK     (Discord channel incoming webhook URL)
+#     SLACK_WEBHOOK_URL   (Slack app incoming webhook URL)
+# Secrets are referenced only via env: mapping, so their values never appear
+# in the workflow file or in the payload construction, and GitHub masks them
+# in logs. Other step failures (E2E, commit, deploy) do NOT page anyone —
+# they fail the run silently per the alerting contract.
+
+name: Weekly update
+
+on:
+  schedule:
+    - cron: "0 0 * * 1" # Monday 00:00 UTC
+  workflow_dispatch: {} # manual run for testing / recovery
+
+permissions:
+  contents: write # push the updated data + built site
+  pages: write # deploy to GitHub Pages
+  id-token: write # OIDC token required by actions/deploy-pages
+
+concurrency:
+  group: weekly-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Set up Node.js (E2E gate)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: e2e/package-lock.json
+
+      - name: Fetch top repos (GitHub Search API)
+        id: fetch
+        env:
+          # Automatic token -> authenticated rate limit (5000 req/hr) and
+          # log redaction. Never store a PAT for this step.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/fetch_trending.py
+        # Failure contract (PRD AC-7): a non-zero exit stops the job before
+        # commit/deploy, so the previously deployed site stays live untouched.
+
+      - name: Build static frontend
+        id: build
+        run: python3 scripts/build_site.py
+
+      - name: Generate release note + social posts
+        run: |
+          python3 scripts/generate_release_note.py \
+            --site-url "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
+
+      - name: E2E gate (renders + error states)
+        run: |
+          cd e2e
+          npm ci
+          npx playwright install --with-deps chromium
+          npx playwright test
+        # 10 tests: list renders, AC-7 stale banner, fetcher failure contract.
+        # Any failure blocks the commit + deploy.
+
+      - name: Commit updated data and site
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/ public/ release/
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Weekly data refresh: $(date -u +%Y-%m-%d)"
+            git push
+          fi
+        # GITHUB_TOKEN pushes do not re-trigger workflows -> no loops.
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      # --- failure alerting (data fetch / static build only) ---
+      # Webhook secrets are mapped to env and tested for non-empty WITHOUT
+      # printing them; alert steps reference the mapped env vars only.
+
+      - name: Detect alert webhooks
+        if: always()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          {
+            if [ -n "$DISCORD_WEBHOOK" ]; then echo "HAS_DISCORD=true"; else echo "HAS_DISCORD=false"; fi
+            if [ -n "$SLACK_WEBHOOK_URL" ]; then echo "HAS_SLACK=true"; else echo "HAS_SLACK=false"; fi
+          } >> "$GITHUB_ENV"
+
+      - name: Send failure alert (Discord)
+        if: ${{ failure() && env.HAS_DISCORD == 'true' && (steps.fetch.outcome == 'failure' || steps.build.outcome == 'failure') }}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          FAILED_STEP=$([ "${{ steps.fetch.outcome }}" = "failure" ] && echo "data fetch" || echo "static build")
+          PAYLOAD=$(FAILED_STEP="$FAILED_STEP" python3 - <<'PYEOF'
+          import json, os
+          repo = os.environ["GITHUB_REPOSITORY"]
+          payload = {
+              "content": (
+                  "⚠️ **Weekly update failed**\n"
+                  f"- Repo: `{repo}`\n"
+                  f"- Commit: `{os.environ['GITHUB_SHA'][:7]}`\n"
+                  f"- Failed step: {os.environ['FAILED_STEP']}\n"
+                  f"- Run: [view]({os.environ['GITHUB_SERVER_URL']}/{repo}/actions/runs/{os.environ['GITHUB_RUN_ID']})"
+              )
+          }
+          print(json.dumps(payload))
+          PYEOF
+          )
+          curl -s -o /dev/null -w "Discord alert sent (HTTP %{http_code})\n" \
+            -H "Content-Type: application/json" -d "$PAYLOAD" "$DISCORD_WEBHOOK"
+
+      - name: Send failure alert (Slack)
+        if: ${{ failure() && env.HAS_SLACK == 'true' && (steps.fetch.outcome == 'failure' || steps.build.outcome == 'failure') }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          FAILED_STEP=$([ "${{ steps.fetch.outcome }}" = "failure" ] && echo "data fetch" || echo "static build")
+          PAYLOAD=$(FAILED_STEP="$FAILED_STEP" python3 - <<'PYEOF'
+          import json, os
+          repo = os.environ["GITHUB_REPOSITORY"]
+          run_link = f"{os.environ['GITHUB_SERVER_URL']}/{repo}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
+          payload = {
+              "text": (
+                  f"⚠️ Weekly update FAILED — repo: {repo}, "
+                  f"commit: {os.environ['GITHUB_SHA'][:7]}, "
+                  f"step: {os.environ['FAILED_STEP']}, run: <{run_link}>"
+              )
+          }
+          print(json.dumps(payload))
+          PYEOF
+          )
+          curl -s -o /dev/null -w "Slack alert sent (HTTP %{http_code})\n" \
+            -H "Content-Type: application/json" -d "$PAYLOAD" "$SLACK_WEBHOOK_URL"
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}

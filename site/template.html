@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Top 10 Trending GitHub Repos This Week</title>
+  <meta name="description" content="The top 10 GitHub repositories ranked by stars gained in the last 7 days. Updated automatically every week.">
+  <meta property="og:title" content="Top 10 Trending GitHub Repos This Week">
+  <meta property="og:description" content="Weekly automated ranking of trending GitHub repositories by star growth.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <h1>⚡ Top 10 Trending on GitHub</h1>
+    <p class="tagline">The 10 repositories gaining the most stars this week &mdash; refreshed automatically every Monday.</p>
+    <p class="asof">Data as of <time datetime="$as_of_iso">$as_of_display</time> UTC</p>
+  </header>
+
+  <main id="main">
+$stale_banner
+    <section class="cards" aria-label="Top 10 trending repositories">
+$cards
+    </section>
+$warnings
+  </main>
+
+  <footer class="site-footer">
+    <p>Ranked by stars gained in the last 7 days &middot; Data from the GitHub Search API &middot; Built weekly by a cron job &mdash; no tracking, no JavaScript.</p>
+  </footer>
+</body>
+</html>
