@@ -1,9 +1,9 @@
-⚡ Top 10 Trending on GitHub — 2026-09-14
+⚡ Top 10 Trending on GitHub — 2026-09-21
 
-codecrafters-io/build-your-own-x tops GitHub's most-starred list this week with 547,212★.
+With +7,665 stars in 7 days, deepseek-ai/deepseek-harness is GitHub's fastest riser this week.
 
-Next: sindresorhus/awesome (505K★) · public-apis/public-apis (480K★)
+Next: affaan-m/ECC (263K★) · mattpocock/skills (266K★)
 
-Full list → https://hungle.github.io/toptrandingrepo
+Full list → https://hungibninc.github.io/top-trending-repo
 
 #GitHub #OpenSource

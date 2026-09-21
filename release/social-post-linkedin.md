@@ -1,11 +1,11 @@
-⚡ Top 10 Trending GitHub Repos — Week of 2026-09-14
+⚡ Top 10 Trending GitHub Repos — Week of 2026-09-21
 
-codecrafters-io/build-your-own-x tops GitHub's most-starred list this week with 547,212★.
+With +7,665 stars in 7 days, deepseek-ai/deepseek-harness is GitHub's fastest riser this week.
 
-💡 codecrafters-io/build-your-own-x: Master programming by recreating your favorite technologies from scratch. — 547,212★ · 51,482 forks · Markdown
+💡 deepseek-ai/deepseek-harness: DeepSeek Harness: Everything is a Plugin. — 231,419★ · 27,741 forks · TypeScript
 
-Right behind: sindresorhus/awesome (505,984★), public-apis/public-apis (480,031★), and freeCodeCamp/freeCodeCamp (455,428★).
+Right behind: affaan-m/ECC (263,893★), mattpocock/skills (266,556★), and obra/superpowers (289,344★).
 
-The full ranked list — data from the GitHub Search API, refreshed automatically every Monday by an open pipeline: https://hungle.github.io/toptrandingrepo
+The full ranked list — data from the GitHub Search API, refreshed automatically every Monday by an open pipeline: https://hungibninc.github.io/top-trending-repo
 
 #OpenSource #GitHub #DeveloperTools
